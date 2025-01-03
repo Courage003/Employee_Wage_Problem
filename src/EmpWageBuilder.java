@@ -16,6 +16,17 @@ class EmpWageBuilder implements IEmployeeWage{
             this.maxWorkingHours = maxWorkingHours;
             this.totalWage = 0;
         }
+
+        @Override
+        public String toString() {
+            return "Company{" +
+                    "totalWage=" + totalWage +
+                    ", maxWorkingHours=" + maxWorkingHours +
+                    ", maxWorkingDays=" + maxWorkingDays +
+                    ", wagePerHour=" + wagePerHour +
+                    ", name='" + name + '\'' +
+                    '}';
+        }
     }
 
     private final List<Company> companies= new ArrayList<>();
