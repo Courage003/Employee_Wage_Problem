@@ -55,4 +55,14 @@ class EmpWageBuilder implements IEmployeeWage {
             System.out.println();
         }
     }
+
+    // Get Total Wage by Company Name
+    public int getTotalWageByCompany(String companyName) {
+        for (Company company : companies) {
+            if (company.name.equals(companyName)) {
+                return company.totalWage;
+            }
+        }
+        throw new IllegalArgumentException("Company not found: " + companyName);
+    }
 }
