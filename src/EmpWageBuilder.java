@@ -1,61 +1,52 @@
 import java.util.ArrayList;
+import java.util.List;
 
-public class EmpWageBuilder {
-    private ArrayList<CompanyEmpWage> companyEmpWageList;
+class EmpWageBuilder implements IEmployeeWage{
+    private static class Company{
+        String name;
+        int wagePerHour;
+        int maxWorkingDays;
+        int maxWorkingHours;
+        int totalWage;
 
-    // Constructor to initialize the list
-    public EmpWageBuilder() {
-        companyEmpWageList = new ArrayList<>();
-    }
-
-    // Add a company to the list
-    public void addCompany(String company, int wagePerHour, int workingDaysPerMonth, int totalWorkingHours) {
-        CompanyEmpWage companyEmpWage = new CompanyEmpWage(company, wagePerHour, workingDaysPerMonth, totalWorkingHours);
-        companyEmpWageList.add(companyEmpWage);
-    }
-
-    // Compute wages for all companies
-    public void computeWages() {
-        for (CompanyEmpWage companyEmpWage : companyEmpWageList) {
-            computeWageForCompany(companyEmpWage);
+        Company(String name, int wagePerHour, int maxWorkingDays, int maxWorkingHours) {
+            this.name = name;
+            this.wagePerHour = wagePerHour;
+            this.maxWorkingDays = maxWorkingDays;
+            this.maxWorkingHours = maxWorkingHours;
+            this.totalWage = 0;
         }
     }
 
-    // Compute wage for a specific company
-    private void computeWageForCompany(CompanyEmpWage companyEmpWage) {
-        int totalWage = 0;
-        int totalHours = 0;
-        int totalDays = 0;
+    private final List<Company> companies= new ArrayList<>();
 
-        while (totalHours < companyEmpWage.getTotalWorkingHours() && totalDays < companyEmpWage.getWorkingDaysPerMonth()) {
+    @Override
+    public void addCompany(String companyName, int wagePerHour, int maxWorkingDays, int maxWorkingHours){
+        companies.add(new Company(companyName,wagePerHour,maxWorkingDays,maxWorkingHours));
+    }
+
+    @Override
+    public void computeWages(){
+        for(Company company: companies){
+            company.totalWage=computeWageForCompany(company);
+        }
+    }
+
+    private int computeWageForCompany(Company company){
+        int totalHours=0, totalDays=0;
+        while(totalHours<=company.maxWorkingHours && totalDays< company.maxWorkingDays){
+            int hoursWorked= (int)(Math.random()*10)%9; //Random hours (0-8)
+            totalHours+=hoursWorked;
             totalDays++;
-            int empCheck = (int) (Math.random() * 3);
-
-            int empHours = 0;
-            switch (empCheck) {
-                case 1: // Full-time
-                    empHours = 8;
-                    break;
-                case 2: // Part-time
-                    empHours = 4;
-                    break;
-                default: // Absent
-                    empHours = 0;
-            }
-
-            totalHours += empHours;
-            totalWage += empHours * companyEmpWage.getWagePerHour();
         }
-
-        companyEmpWage.setTotalWage(totalWage);
-        System.out.println("Computed Wage for " + companyEmpWage.getCompany() + ": $" + totalWage);
+        return totalHours*company.wagePerHour;
     }
 
-    // Display all company wages
-    public void displayAllCompanyWages() {
-        System.out.println("\nSummary of Wages:");
-        for (CompanyEmpWage companyEmpWage : companyEmpWageList) {
-            companyEmpWage.displayDetails();
+    @Override
+    public void displayAllCompanyWages(){
+        for(Company company: companies){
+            System.out.println("Total Wage for " + company.name + ": " + company.totalWage);
         }
     }
 }
+

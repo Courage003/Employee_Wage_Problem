@@ -5,7 +5,7 @@ public class EmployeeAttendance {
         System.out.println("Welcome to the Employee Wage Computation Program!");
 
         // Create an instance of EmpWageBuilder
-        EmpWageBuilder empWageBuilder = new EmpWageBuilder();
+        IEmployeeWage empWageBuilder = new EmpWageBuilder();
 
         // Add multiple companies
         empWageBuilder.addCompany("Company A", 20, 20, 100);
