@@ -15,5 +15,10 @@ public class EmployeeAttendance {
 
         // Display summary of wages
         empWageBuilder.displayAllCompanyWages();
+        // Query total wage for a specific company
+        String queryCompany = "Company B";
+        System.out.println("Total Wage for " + queryCompany + ": " + empWageBuilder.getTotalWageByCompany(queryCompany));
+
+
     }
 }
