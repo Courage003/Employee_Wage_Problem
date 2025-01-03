@@ -2,20 +2,21 @@ public class EmployeeAttendance {
 
     // Main method
     public static void main(String[] args) {
-        // Create instances of EmpWageBuilder for each company
-        EmpWageBuilder companyA = new EmpWageBuilder("Company A", 20, 20, 100);
-        EmpWageBuilder companyB = new EmpWageBuilder("Company B", 25, 22, 120);
-        EmpWageBuilder companyC = new EmpWageBuilder("Company C", 15, 18, 80);
+        System.out.println("Welcome to the Employee Wage Computation Program!");
 
-        // Compute and display employee wages for each company
-        companyA.computeEmployeeWage();
-        companyB.computeEmployeeWage();
-        companyC.computeEmployeeWage();
+        // Create an instance of EmpWageBuilder
+        EmpWageBuilder empWageBuilder = new EmpWageBuilder();
 
-        System.out.println("\nSummary of Wages:");
-        companyA.displayDetails();
-        companyB.displayDetails();
-        companyC.displayDetails();
+        // Add multiple companies
+        empWageBuilder.addCompany("Company A", 20, 20, 100);
+        empWageBuilder.addCompany("Company B", 25, 22, 120);
+        empWageBuilder.addCompany("Company C", 15, 18, 80);
+
+        // Compute wages for all companies
+        empWageBuilder.computeWages();
+
+        // Display summary of wages
+        empWageBuilder.displayAllCompanyWages();
     }
 }
 

@@ -1,30 +1,33 @@
-public class EmpWageBuilder {
-    //Instance varibales for company-specific data
-    private String company;
-    private int wagePerHour;
-    private int workingDaysPerMonth;
-    private int totalWorkingHours;
-    private int totalWage;
+import java.util.ArrayList;
 
-    public EmpWageBuilder(String company, int wagePerHour, int workingDaysPerMonth, int totalWorkingHours) {
-        this.company = company;
-        this.wagePerHour = wagePerHour;
-        this.workingDaysPerMonth = workingDaysPerMonth;
-        this.totalWorkingHours = totalWorkingHours;
-        this.totalWage = 0;
+public class EmpWageBuilder {
+    private ArrayList<CompanyEmpWage> companyEmpWageList;
+
+    // Constructor to initialize the list
+    public EmpWageBuilder() {
+        companyEmpWageList = new ArrayList<>();
     }
 
+    // Add a company to the list
+    public void addCompany(String company, int wagePerHour, int workingDaysPerMonth, int totalWorkingHours) {
+        CompanyEmpWage companyEmpWage = new CompanyEmpWage(company, wagePerHour, workingDaysPerMonth, totalWorkingHours);
+        companyEmpWageList.add(companyEmpWage);
+    }
 
+    // Compute wages for all companies
+    public void computeWages() {
+        for (CompanyEmpWage companyEmpWage : companyEmpWageList) {
+            computeWageForCompany(companyEmpWage);
+        }
+    }
 
-    // Method to compute the total employee wage for the company
-    public void computeEmployeeWage() {
-        System.out.println("Welcome to the Wage Computation Program for " + company + ":");
-
+    // Compute wage for a specific company
+    private void computeWageForCompany(CompanyEmpWage companyEmpWage) {
+        int totalWage = 0;
         int totalHours = 0;
         int totalDays = 0;
 
-        // Compute wages while satisfying conditions
-        while (totalHours < totalWorkingHours && totalDays < workingDaysPerMonth) {
+        while (totalHours < companyEmpWage.getTotalWorkingHours() && totalDays < companyEmpWage.getWorkingDaysPerMonth()) {
             totalDays++;
             int empCheck = (int) (Math.random() * 3);
 
@@ -40,24 +43,19 @@ public class EmpWageBuilder {
                     empHours = 0;
             }
 
-            // Update total hours and wage
             totalHours += empHours;
-            int dailyWage = wagePerHour * empHours;
-            totalWage += dailyWage;
+            totalWage += empHours * companyEmpWage.getWagePerHour();
         }
 
-        // Output the results
-        System.out.println("Total Wage for " + totalDays + " days and " + totalHours + " hours: $" + totalWage);
+        companyEmpWage.setTotalWage(totalWage);
+        System.out.println("Computed Wage for " + companyEmpWage.getCompany() + ": $" + totalWage);
     }
 
-    // Method to get the total wage
-    public int getTotalWage() {
-        return totalWage;
-    }
-
-    // Method to display company details and total wage
-    public void displayDetails() {
-        System.out.println("Company: " + company + ", Total Wage: $" + totalWage);
+    // Display all company wages
+    public void displayAllCompanyWages() {
+        System.out.println("\nSummary of Wages:");
+        for (CompanyEmpWage companyEmpWage : companyEmpWageList) {
+            companyEmpWage.displayDetails();
+        }
     }
 }
-
